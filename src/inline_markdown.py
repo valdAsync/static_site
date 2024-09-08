@@ -1,3 +1,5 @@
+import re
+
 from textnode import (
     TextNode,
     text_type_bold,
@@ -25,7 +27,13 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     return new_nodes
 
 
-node = TextNode("This is text with a **bolded word** and **another**", text_type_text)
-new_nodes = split_nodes_delimiter([node], "**", text_type_bold)
+def extract_markdown_images(text):
+    pattern = r"!\[(.*?)\]\((.*?)\)"
+    matches = re.findall(pattern, text)
+    return matches
 
-print(new_nodes)
+
+def extract_markdown_links(text):
+    pattern = r"(?<!!)\[(.*?)\]\((.*?)\)"
+    matches = re.findall(pattern, text)
+    return matches
